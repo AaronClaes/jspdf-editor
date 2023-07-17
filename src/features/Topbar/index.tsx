@@ -1,8 +1,10 @@
 "use client";
+import { useAppStore } from "@/stores/appStore";
 import { IconButton, Stack, Toolbar, Typography } from "@mui/material";
-import { FaChevronLeft, FaFloppyDisk } from "react-icons/fa6";
+import { FaChevronLeft, FaCode, FaFloppyDisk } from "react-icons/fa6";
 
 const Topbar = () => {
+  const toggle = useAppStore((state) => state.toggle);
   return (
     <Toolbar
       sx={{
@@ -20,6 +22,9 @@ const Topbar = () => {
       <Stack direction="row" alignItems="center">
         <IconButton size="large">
           <FaFloppyDisk size="20" />
+        </IconButton>
+        <IconButton onClick={() => toggle("showCode")} size="large">
+          <FaCode size="20" />
         </IconButton>
       </Stack>
     </Toolbar>

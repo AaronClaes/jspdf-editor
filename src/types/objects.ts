@@ -9,6 +9,9 @@ export type ShapeType = {
 export type RectShapeType = ShapeType & {
   width: number;
   height: number;
+  fill?: string;
+  borderWidth?: number;
+  borderColor?: string;
 };
 
 export type CircleShapeType = ShapeType & {

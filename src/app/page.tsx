@@ -1,5 +1,7 @@
 "use client";
-import { Box, Container } from "@mui/material";
+import CodePanel from "@/features/CodePanel";
+import { useAppStore } from "@/stores/appStore";
+import { Box, Stack } from "@mui/material";
 import dynamic from "next/dynamic";
 
 const KonvaCanvas = dynamic(() => import("../features/KonvaCanvas"), {
@@ -7,17 +9,12 @@ const KonvaCanvas = dynamic(() => import("../features/KonvaCanvas"), {
 });
 
 export default function Home() {
+  const showCode = useAppStore((state) => state.showCode);
   return (
     <main>
-      <Box
-        sx={{
-          p: 4,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <Box p={4} justifyContent="center" display="flex" gap={4}>
         <KonvaCanvas />
+        {showCode && <CodePanel />}
       </Box>
     </main>
   );
