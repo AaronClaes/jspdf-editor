@@ -1,11 +1,10 @@
 import { Box, IconButton, IconButtonProps, IconButtonTypeMap, Stack, styled } from "@mui/material";
 import React, { FC, ReactNode, useRef, useState } from "react";
-import { FaMinus, FaRegCircle, FaRegSquareFull } from "react-icons/fa6";
 import { useOnClickOutside } from "usehooks-ts";
 
 type LayoutIconButtonType = IconButtonProps & {
   subOptions?: ReactNode;
-  active?: boolean;
+  active?: "true" | "false";
 };
 
 const LayoutIconButton: FC<LayoutIconButtonType> = ({ subOptions, onClick, children, ...rest }) => {
@@ -18,7 +17,7 @@ const LayoutIconButton: FC<LayoutIconButtonType> = ({ subOptions, onClick, child
   useOnClickOutside(iconWrapperRef, () => setShowSubOptions(false));
 
   const handleOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (subOptions) return setShowSubOptions((p) => !p);
+    if (subOptions) setShowSubOptions((p) => !p);
     if (onClick) onClick(e);
   };
 
@@ -45,7 +44,7 @@ const LayoutIconButton: FC<LayoutIconButtonType> = ({ subOptions, onClick, child
 const CustomIconButton = styled(IconButton, {
   shouldForwardProp: (prop) => prop !== "success",
 })<Pick<LayoutIconButtonType, "active">>(({ active, theme }) => ({
-  ...(active && {
+  ...(active === "true" && {
     backgroundColor: "rgba(255, 255, 255, 0.08)",
     svg: {
       fill: theme.palette.primary.main,
