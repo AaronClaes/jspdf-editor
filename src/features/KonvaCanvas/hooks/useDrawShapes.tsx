@@ -4,22 +4,24 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { v4 as uuidv4 } from "uuid";
 
 const useDrawShapes = () => {
-  const shapes = useAppStore((state) => state.objects.shapes);
+  const objects = useAppStore((state) => state.objects);
   const action = useAppStore((state) => state.action);
   const drawAction = useAppStore((state) => state.drawAction);
-  const currentShape = useAppStore((state) => state.currentShape);
+  const currentObject = useAppStore((state) => state.currentObject);
   const isDrawing = useAppStore((state) => state.isDrawing);
 
   const update = useAppStore((state) => state.update);
-  const createShape = useAppStore((state) => state.createShape);
-  const updateShape = useAppStore((state) => state.updateShape);
+  const createObject = useAppStore((state) => state.createObject);
+  const updateObject = useAppStore((state) => state.updateObject);
 
   const canDrawShape = action === "shape";
 
   const startDrawing = (e: KonvaEventObject<PointerEvent>) => {
     if (!canDrawShape) return;
-    const name = uuidv4();
-    update({ isDrawing: true, currentShape: name });
+    const id = uuidv4();
+    const name = "object";
+
+    update({ isDrawing: true, currentObject: id });
 
     const stage = e.currentTarget.getStage();
     const pointer = stage?.getPointerPosition();
@@ -27,11 +29,24 @@ const useDrawShapes = () => {
     if (!stage || !pointer) return;
 
     if (drawAction === "rect") {
-      createShape(drawAction, { name, x: pointer.x, y: pointer.y, width: 1, height: 1 });
+      createObject({
+        id,
+        type: "rect",
+        name,
+        x: pointer.x,
+        y: pointer.y,
+        width: 1,
+        height: 1,
+        fill: "#ff0000",
+        borderColor: "#000000",
+        borderWidth: 2,
+      });
     } else if (drawAction === "circle") {
-      createShape(drawAction, { name, x: pointer.x, y: pointer.y, radius: 1 });
+      createObject({ id, type: "circle", name, x: pointer.x, y: pointer.y, radius: 1 });
     } else if (drawAction === "line") {
-      createShape(drawAction, {
+      createObject({
+        id,
+        type: "line",
         name,
         x: 0,
         y: 0,
@@ -43,7 +58,7 @@ const useDrawShapes = () => {
 
   const whileDrawing = (e: KonvaEventObject<PointerEvent>) => {
     if (!isDrawing || !canDrawShape) return;
-    const shape = shapes[drawAction][currentShape];
+    const shape = objects[currentObject];
     if (!shape) return;
 
     const stage = e.currentTarget.getStage();
@@ -51,17 +66,17 @@ const useDrawShapes = () => {
     if (!stage || !pointer) return;
 
     if (drawAction === "rect") {
-      updateShape(drawAction, currentShape, {
+      updateObject(currentObject, {
         width: pointer.x - shape.x,
         height: pointer.y - shape.y,
       });
     } else if (drawAction === "circle") {
-      updateShape(drawAction, currentShape, {
+      updateObject(currentObject, {
         radius: Math.abs(pointer.x - shape.x),
       });
     } else if (drawAction === "line") {
       const lineShape = shape as LineShapeType;
-      updateShape(drawAction, currentShape, {
+      updateObject(currentObject, {
         point1: lineShape.point1,
         point2: [pointer.x, pointer.y],
       });

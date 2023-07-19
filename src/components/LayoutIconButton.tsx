@@ -4,7 +4,7 @@ import { useOnClickOutside } from "usehooks-ts";
 
 type LayoutIconButtonType = IconButtonProps & {
   subOptions?: ReactNode;
-  isActive?: "true" | "false";
+  active?: "true" | "false";
 };
 
 const LayoutIconButton: FC<LayoutIconButtonType> = ({ subOptions, onClick, children, ...rest }) => {
@@ -41,15 +41,15 @@ const LayoutIconButton: FC<LayoutIconButtonType> = ({ subOptions, onClick, child
   );
 };
 
-const CustomIconButton = styled(IconButton, {
-  shouldForwardProp: (prop) => prop !== "success",
-})<Pick<LayoutIconButtonType, "isActive">>(({ isActive, theme }) => ({
-  ...(isActive === "true" && {
-    backgroundColor: "rgba(255, 255, 255, 0.08)",
-    svg: {
-      fill: theme.palette.primary.main,
-    },
-  }),
-}));
+const CustomIconButton = styled(IconButton)<Pick<LayoutIconButtonType, "active">>(
+  ({ active, theme }) => ({
+    ...(active === "true" && {
+      backgroundColor: "rgba(255, 255, 255, 0.08)",
+      svg: {
+        fill: theme.palette.primary.main,
+      },
+    }),
+  })
+);
 
 export default LayoutIconButton;

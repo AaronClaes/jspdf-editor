@@ -9,13 +9,13 @@ type LineType = {
 
 const Line: FC<LineType> = ({ shape }) => {
   const action = useAppStore((state) => state.action);
-  const currentShape = useAppStore((state) => state.currentShape);
+  const currentObject = useAppStore((state) => state.currentObject);
   const update = useAppStore((state) => state.update);
 
-  const isActive = currentShape === shape.name;
+  const isActive = currentObject === shape.id;
 
   const setActive = () => {
-    update({ currentShape: shape.name });
+    update({ currentObject: shape.id });
   };
 
   return (

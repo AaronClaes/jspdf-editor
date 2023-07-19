@@ -2,35 +2,28 @@ import { create } from "zustand";
 import { mountStoreDevtool } from "simple-zustand-devtools";
 import { produce } from "immer";
 import { BooleanKeys } from "@/types/helpers";
-import { CircleShapeType, LineShapeType, RectShapeType, ShapeType } from "@/types/objects";
+import { CircleShapeType, LineShapeType, RectShapeType, ObjectType } from "@/types/objects";
 
-type CreateShapeType = {
-  (type: "rect", shape: RectShapeType): void;
-  (type: "circle", shape: CircleShapeType): void;
-  (type: "line", shape: LineShapeType): void;
+type CreateObjectType = {
+  (object: RectShapeType): void;
+  (object: CircleShapeType): void;
+  (object: LineShapeType): void;
 };
 
-type UpdateShapeType = {
-  (type: "rect", name: string, values: Partial<RectShapeType>): void;
-  (type: "circle", name: string, values: Partial<CircleShapeType>): void;
-  (type: "line", name: string, values: Partial<LineShapeType>): void;
+type UpdateObjectType = {
+  (name: string, values: Partial<RectShapeType>): void;
+  (name: string, values: Partial<CircleShapeType>): void;
+  (name: string, values: Partial<LineShapeType>): void;
 };
 
 export interface AppState {
   action: "select" | "shape" | "text";
   drawAction: "rect" | "circle" | "line";
-  objects: {
-    shapes: {
-      rect: { [key: string]: RectShapeType };
-      circle: { [key: string]: CircleShapeType };
-      line: { [key: string]: LineShapeType };
-    };
-  };
+  objects: { [key: string]: RectShapeType | CircleShapeType | LineShapeType };
   isDrawing: boolean;
-  currentShape: string;
-  showCode: boolean;
-  createShape: CreateShapeType;
-  updateShape: UpdateShapeType;
+  currentObject: string;
+  createObject: CreateObjectType;
+  updateObject: UpdateObjectType;
   update: (options: Partial<AppStateValues>) => void;
   toggle: (option: BooleanKeys<AppStateValues>) => void;
   clearObjects: () => void;
@@ -39,42 +32,35 @@ export interface AppState {
 
 type AppStateValues = Omit<
   AppState,
-  "createShape" | "updateShape" | "update" | "toggle" | "clearObjects" | "clearStore"
+  "createObject" | "updateObject" | "update" | "toggle" | "clearObjects" | "clearStore"
 >;
 
 const initialState: AppStateValues = {
   action: "select",
   drawAction: "rect",
-  objects: {
-    shapes: {
-      rect: {},
-      circle: {},
-      line: {},
-    },
-  },
+  objects: {},
   isDrawing: false,
-  currentShape: "",
-  showCode: false,
+  currentObject: "",
 };
 
 export const useAppStore = create<AppState>((set) => ({
   ...initialState,
-  createShape: (type, shape) =>
+  createObject: (object) =>
     set(
       produce((state: AppState) => {
-        state.objects.shapes[type][shape.name] = shape;
+        state.objects[object.id] = object;
       })
     ),
-  updateShape: (type, name, values) =>
+  updateObject: (id, values) =>
     set(
       produce((state: AppState) => {
-        let shape = state.objects.shapes[type][name];
-        if (!shape) return;
+        let object = state.objects[id];
+        if (!object) return;
 
         for (const key in values) {
-          let shapeKey = key as keyof ShapeType;
+          let objectKey = key as keyof ObjectType;
 
-          shape[shapeKey] = values[shapeKey] as never;
+          object[objectKey] = values[objectKey] as never;
         }
       })
     ),
@@ -83,13 +69,7 @@ export const useAppStore = create<AppState>((set) => ({
   clearObjects: () =>
     set(
       produce((state: AppState) => {
-        state.objects = {
-          shapes: {
-            rect: {},
-            circle: {},
-            line: {},
-          },
-        };
+        state.objects = {};
       })
     ),
   clearStore: () => set(() => initialState),

@@ -8,14 +8,14 @@ import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
 
 const KonvaCanvas = () => {
-  const shapes = useAppStore((state) => state.objects.shapes);
+  const objects = useAppStore((state) => state.objects);
   const update = useAppStore((state) => state.update);
 
   const { startDrawing, whileDrawing, stopDrawing } = useDrawShapes();
 
   const handleStageClick = (e: KonvaEventObject<PointerEvent>) => {
     if (!(e.target instanceof Konva.Stage)) return;
-    update({ currentShape: undefined });
+    update({ currentObject: undefined });
   };
 
   return (
@@ -30,20 +30,11 @@ const KonvaCanvas = () => {
       height={842}
     >
       <Layer>
-        {Object.keys(shapes.rect).map((key) => {
-          const s = shapes.rect[key];
-          if (!s) return;
-          return <Rectangle key={s.name} shape={s} />;
-        })}
-        {Object.keys(shapes.circle).map((key) => {
-          const s = shapes.circle[key];
-          if (!s) return;
-          return <Circle key={s.name} shape={s} />;
-        })}
-        {Object.keys(shapes.line).map((key) => {
-          const s = shapes.line[key];
-          if (!s) return;
-          return <Line key={s.name} shape={s} />;
+        {Object.keys(objects).map((key) => {
+          const object = objects[key];
+          if (object.type === "rect") return <Rectangle key={object.id} shape={object} />;
+          else if (object.type === "circle") return <Circle key={object.id} shape={object} />;
+          else if (object.type === "line") return <Line key={object.id} shape={object} />;
         })}
       </Layer>
     </Stage>

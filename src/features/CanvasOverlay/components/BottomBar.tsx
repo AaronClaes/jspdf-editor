@@ -46,7 +46,7 @@ const BottomBar = () => {
         justifyContent="center"
         gap={1}
         position="absolute"
-        bottom={4}
+        bottom="12px"
         left={0}
         right={0}
         sx={{ pointerEvents: "none" }}
@@ -58,7 +58,7 @@ const BottomBar = () => {
               return (
                 <LayoutIconButton
                   key={button.action}
-                  isActive={isActive}
+                  active={isActive}
                   size="medium"
                   subOptions={button.subOptions}
                   onClick={() => update({ action: button.action })}
@@ -109,7 +109,7 @@ function ShapesSubOptions() {
           return (
             <LayoutIconButton
               key={button.action}
-              isActive={isActive}
+              active={isActive}
               size="medium"
               onClick={() => {
                 update({ action: "shape", drawAction: button.action });

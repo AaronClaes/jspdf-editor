@@ -9,14 +9,14 @@ type CircleType = {
 
 const Circle: FC<CircleType> = ({ shape }) => {
   const action = useAppStore((state) => state.action);
-  const currentShape = useAppStore((state) => state.currentShape);
+  const currentObject = useAppStore((state) => state.currentObject);
   const update = useAppStore((state) => state.update);
 
-  const isActive = currentShape === shape.name;
+  const isActive = currentObject === shape.id;
 
   const setActive = () => {
     if (action !== "select") return;
-    update({ currentShape: shape.name });
+    update({ currentObject: shape.id });
   };
 
   return (

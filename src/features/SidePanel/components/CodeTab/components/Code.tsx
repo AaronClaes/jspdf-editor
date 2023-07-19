@@ -1,7 +1,7 @@
 "use client";
 import { Button, Typography } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { jsPDF as jsPDFClass } from "jspdf";
 import { useAppStore } from "@/stores/appStore";
 import { useMemo } from "react";
@@ -10,17 +10,19 @@ import { jsPDFConverter } from "@/lib/jsPDFConverter";
 const converter = new jsPDFConverter();
 
 const Code = () => {
-  const shapes = useAppStore((state) => state.objects.shapes);
+  const objects = useAppStore((state) => state.objects);
 
   const rectString = useMemo(() => {
     let string = "";
-    for (const key in shapes.rect) {
-      const rect = shapes.rect[key];
-      const rectString = converter.createRect(rect.x, rect.y, rect.width, rect.height);
-      string += rectString;
+    for (const key in objects) {
+      const object = objects[key];
+      if (object.type === "rect") {
+        const newRectString = converter.createRect(object.x, object.y, object.width, object.height);
+        string += newRectString;
+      }
     }
     return string;
-  }, [shapes]);
+  }, [objects]);
 
   const fullCode =
     `const doc = new jsPDF({
@@ -33,7 +35,7 @@ const Code = () => {
     `\ndoc.save("a4.pdf");`;
   return (
     <>
-      <SyntaxHighlighter language="js" style={prism}>
+      <SyntaxHighlighter language="js" style={vscDarkPlus}>
         {fullCode}
       </SyntaxHighlighter>
       <Button onClick={() => test(fullCode)}>Test</Button>

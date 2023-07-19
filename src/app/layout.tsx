@@ -12,6 +12,7 @@ import ThemeRegistry from "@/features/ThemeRegistry";
 import Topbar from "@/features/Topbar";
 import { Box } from "@mui/material";
 import CanvasOverlay from "@/features/CanvasOverlay";
+import SidePanel from "@/features/SidePanel";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -48,8 +49,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeRegistry options={{ key: "mui" }}>
           <Topbar />
-          <Box sx={{ height: "calc(100dvh - 64px)", width: "100%", overflow: "auto" }}>
-            {children}
+          <Box display="flex">
+            <Box sx={{ height: "calc(100dvh - 64px)", width: "100%", overflow: "auto" }}>
+              {children}
+            </Box>
+            <SidePanel />
           </Box>
           <CanvasOverlay />
         </ThemeRegistry>
