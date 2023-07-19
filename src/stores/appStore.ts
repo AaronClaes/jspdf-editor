@@ -22,6 +22,7 @@ export interface AppState {
   objects: { [key: string]: RectShapeType | CircleShapeType | LineShapeType };
   isDrawing: boolean;
   currentObject: string;
+  sidePanelTab: number;
   createObject: CreateObjectType;
   updateObject: UpdateObjectType;
   update: (options: Partial<AppStateValues>) => void;
@@ -41,6 +42,7 @@ const initialState: AppStateValues = {
   objects: {},
   isDrawing: false,
   currentObject: "",
+  sidePanelTab: -1,
 };
 
 export const useAppStore = create<AppState>((set) => ({

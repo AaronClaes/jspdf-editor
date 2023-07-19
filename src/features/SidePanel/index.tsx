@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaCode, FaSliders } from "react-icons/fa6";
 import SettingsTab from "./components/SettingsTab";
 import CodeTab from "./components/CodeTab";
+import { useAppStore } from "@/stores/appStore";
 
 function a11yProps(index: number) {
   return {
@@ -13,19 +14,27 @@ function a11yProps(index: number) {
 }
 
 const SidePanel = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState(-1);
+  const sidePanelTab = useAppStore((state) => state.sidePanelTab);
+  const update = useAppStore((state) => state.update);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    update({ sidePanelTab: newValue });
   };
 
+  const width = sidePanelTab === -1 ? "50px" : "400px";
+
   return (
-    <Box display="flex" bgcolor="background.default" minWidth="400px" maxWidth="400px">
+    <Box
+      display="flex"
+      bgcolor="background.default"
+      minWidth={width}
+      maxWidth={width}
+      sx={{ transition: "min-width 0.4s ease" }}
+    >
       <StyledTabs
         orientation="vertical"
         variant="scrollable"
-        value={value}
+        value={sidePanelTab}
         onChange={handleChange}
         aria-label="Vertical tabs example"
         sx={{ borderLeft: 1, borderColor: "divider", minWidth: "50px" }}
@@ -33,9 +42,9 @@ const SidePanel = () => {
         <StyledTab icon={<FaSliders />} {...a11yProps(0)} />
         <StyledTab icon={<FaCode />} {...a11yProps(1)} />
       </StyledTabs>
-      <Box width="calc(100% - 50px)" py={2} pr={2}>
-        {value === 0 && <SettingsTab />}
-        {value === 1 && <CodeTab />}
+      <Box width="calc(100% - 50px)">
+        {sidePanelTab === 0 && <SettingsTab />}
+        {sidePanelTab === 1 && <CodeTab />}
       </Box>
     </Box>
   );
