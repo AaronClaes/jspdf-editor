@@ -6,20 +6,36 @@ import Circle from "./components/Circle";
 import Line from "./components/Line";
 import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
+import usePage from "@/hooks/usePage";
+import { useEffect, useRef } from "react";
+import { useDebounce } from "usehooks-ts";
 
 const KonvaCanvas = () => {
-  const objects = useAppStore((state) => state.objects);
+  const updatePage = useAppStore((state) => state.updatePage);
   const update = useAppStore((state) => state.update);
 
   const { startDrawing, whileDrawing, stopDrawing } = useDrawShapes();
+  const { objects, currentPage } = usePage();
+  const debounceObjects = useDebounce<typeof objects>(objects, 500);
 
   const handleStageClick = (e: KonvaEventObject<PointerEvent>) => {
     if (!(e.target instanceof Konva.Stage)) return;
     update({ currentObject: undefined });
   };
 
+  const stageRef = useRef<Konva.Stage>(null);
+
+  useEffect(() => {
+    if (stageRef.current) {
+      const thumbnail = stageRef.current.toDataURL();
+
+      updatePage(currentPage, { thumbnail });
+    }
+  }, [debounceObjects, currentPage, updatePage]);
+
   return (
     <Stage
+      ref={stageRef}
       onClick={handleStageClick}
       onPointerDown={startDrawing}
       onPointerMove={whileDrawing}

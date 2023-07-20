@@ -5,7 +5,6 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 
 import { ThemeOptions } from "@mui/material/styles";
 import ThemeRegistry from "@/features/ThemeRegistry";
@@ -13,8 +12,8 @@ import Topbar from "@/features/Topbar";
 import { Box } from "@mui/material";
 import CanvasOverlay from "@/features/CanvasOverlay";
 import SidePanel from "@/features/SidePanel";
-import { SnackbarProvider } from "notistack";
 import Providers from "./Providers";
+import PagesPanel from "@/features/PagesPanel";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -53,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Providers>
             <Topbar />
             <Box display="flex">
+              <PagesPanel />
               <Box sx={{ height: "calc(100dvh - 64px)", width: "100%", overflow: "auto" }}>
                 {children}
               </Box>

@@ -8,10 +8,11 @@ import Vector2Input from "./Vector2Input";
 import TextInput from "./TextInput";
 import NumberInput from "./NumberInput";
 import ColorInput from "./ColorInput";
+import usePage from "@/hooks/usePage";
 
 const PropertiesTab = () => {
   const currentObject = useAppStore((state) => state.currentObject);
-  const objects = useAppStore((state) => state.objects);
+  const { objects } = usePage();
 
   const activeObject = objects[currentObject];
   const activeObjectFields = activeObject ? objectFields[activeObject.type] : undefined;

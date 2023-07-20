@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { mountStoreDevtool } from "simple-zustand-devtools";
 import { produce } from "immer";
-import { BooleanKeys } from "@/types/helpers";
+import { BooleanKeys, NonFunctionKeys } from "@/types/helpers";
 import { CircleShapeType, LineShapeType, RectShapeType, ObjectType } from "@/types/objects";
 
 type CreateObjectType = {
@@ -16,30 +16,36 @@ type UpdateObjectType = {
   (id: string, values: Partial<LineShapeType>): void;
 };
 
+type PageType = {
+  thumbnail: string;
+  objects: { [key: string]: RectShapeType | CircleShapeType | LineShapeType };
+};
+
 export interface AppState {
   action: "select" | "shape" | "text";
   drawAction: "rect" | "circle" | "line";
-  objects: { [key: string]: RectShapeType | CircleShapeType | LineShapeType };
+  currentPage: number;
+  pages: PageType[];
   isDrawing: boolean;
   currentObject: string;
   sidePanelTab: number;
+  createPage: () => void;
+  updatePage: (pageIndex: number, values: Partial<PageType>) => void;
   createObject: CreateObjectType;
   updateObject: UpdateObjectType;
   update: (options: Partial<AppStateValues>) => void;
   toggle: (option: BooleanKeys<AppStateValues>) => void;
-  clearObjects: () => void;
+  clearObjects: (pageIndex: number) => void;
   clearStore: () => void;
 }
 
-type AppStateValues = Omit<
-  AppState,
-  "createObject" | "updateObject" | "update" | "toggle" | "clearObjects" | "clearStore"
->;
+type AppStateValues = NonFunctionKeys<AppState>;
 
 const initialState: AppStateValues = {
   action: "select",
   drawAction: "rect",
-  objects: {},
+  currentPage: 0,
+  pages: [{ thumbnail: "", objects: {} }],
   isDrawing: false,
   currentObject: "",
   sidePanelTab: -1,
@@ -47,16 +53,29 @@ const initialState: AppStateValues = {
 
 export const useAppStore = create<AppState>((set) => ({
   ...initialState,
+  createPage: () => set((state) => ({ pages: [...state.pages, { thumbnail: "", objects: {} }] })),
+  updatePage: (pageIndex, values) =>
+    set(
+      produce((state: AppState) => {
+        let page = state.pages[pageIndex];
+        if (!page) return;
+
+        for (const key in values) {
+          let objectKey = key as keyof PageType;
+          page[objectKey] = values[objectKey] as never;
+        }
+      })
+    ),
   createObject: (object) =>
     set(
       produce((state: AppState) => {
-        state.objects[object.id] = object;
+        state.pages[state.currentPage].objects[object.id] = object;
       })
     ),
   updateObject: (id, values) =>
     set(
       produce((state: AppState) => {
-        let object = state.objects[id];
+        let object = state.pages[state.currentPage].objects[id];
         if (!object) return;
 
         for (const key in values) {
@@ -68,10 +87,10 @@ export const useAppStore = create<AppState>((set) => ({
     ),
   update: (options) => set((state) => ({ ...state, ...options })),
   toggle: (option) => set((state) => ({ [option]: !state[option] })),
-  clearObjects: () =>
+  clearObjects: (pageIndex) =>
     set(
       produce((state: AppState) => {
-        state.objects = {};
+        state.pages[pageIndex].objects = {};
       })
     ),
   clearStore: () => set(() => initialState),

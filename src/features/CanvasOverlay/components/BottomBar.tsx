@@ -13,6 +13,7 @@ import {
   FaTrashCan,
 } from "react-icons/fa6";
 import ConfirmDialog from "./ConfirmDialog";
+import usePage from "@/hooks/usePage";
 
 type IconButtonValuesType = {
   icon: ReactNode;
@@ -37,9 +38,14 @@ const BottomBar = () => {
   const clearObjects = useAppStore((state) => state.clearObjects);
   const sidePanelTab = useAppStore((state) => state.sidePanelTab);
 
+  const { currentPage } = usePage();
+
   const [confirmClear, setConfirmClear] = useState(false);
 
-  const left = sidePanelTab === -1 ? "-50px" : "-400px";
+  // left panel = 300px, right panel = 400px or 50px when closed.
+  // 250px = -50px + 300px
+  // -100px = -400px + 300px
+  const left = sidePanelTab === -1 ? "250px" : "-100px";
 
   return (
     <>
@@ -86,7 +92,7 @@ const BottomBar = () => {
         isOpen={confirmClear}
         handleClose={() => setConfirmClear(false)}
         handleConfirm={() => {
-          clearObjects();
+          clearObjects(currentPage);
           setConfirmClear(false);
         }}
       />

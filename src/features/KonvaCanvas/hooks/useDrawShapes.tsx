@@ -1,10 +1,11 @@
+import usePage from "@/hooks/usePage";
 import { useAppStore } from "@/stores/appStore";
 import { LineShapeType } from "@/types/objects";
 import { KonvaEventObject } from "konva/lib/Node";
 import { v4 as uuidv4 } from "uuid";
 
 const useDrawShapes = () => {
-  const objects = useAppStore((state) => state.objects);
+  const { objects } = usePage();
   const action = useAppStore((state) => state.action);
   const drawAction = useAppStore((state) => state.drawAction);
   const currentObject = useAppStore((state) => state.currentObject);

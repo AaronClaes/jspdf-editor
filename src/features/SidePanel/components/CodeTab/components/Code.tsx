@@ -8,12 +8,13 @@ import { useMemo, useState } from "react";
 import { jsPDFConverter } from "@/lib/jsPDFConverter";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useSnackbar } from "notistack";
+import usePage from "@/hooks/usePage";
 
 const converter = new jsPDFConverter();
 
 const Code = () => {
-  const objects = useAppStore((state) => state.objects);
   const { enqueueSnackbar } = useSnackbar();
+  const { objects } = usePage();
 
   const [_, copy] = useCopyToClipboard();
 

@@ -28,7 +28,11 @@ const SidePanel = () => {
       bgcolor="background.default"
       minWidth={width}
       maxWidth={width}
-      sx={{ transition: "min-width 0.4s ease, max-width 0.4s ease" }}
+      sx={{
+        transition: "min-width 0.4s ease, max-width 0.4s ease",
+        borderLeft: 1,
+        borderColor: "divider",
+      }}
     >
       <StyledTabs
         orientation="vertical"
@@ -36,7 +40,7 @@ const SidePanel = () => {
         value={sidePanelTab}
         onChange={handleChange}
         aria-label="Vertical tabs example"
-        sx={{ borderLeft: 1, borderColor: "divider", minWidth: "50px" }}
+        sx={{ minWidth: "50px" }}
       >
         <StyledTab icon={<FaSliders />} {...a11yProps(0)} />
         <StyledTab icon={<FaCode />} {...a11yProps(1)} />
