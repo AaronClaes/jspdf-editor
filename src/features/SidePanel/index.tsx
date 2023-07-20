@@ -1,8 +1,7 @@
 "use client";
-import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
-import { useState } from "react";
+import { Box, Tab, Tabs, styled } from "@mui/material";
 import { FaCode, FaSliders } from "react-icons/fa6";
-import SettingsTab from "./components/SettingsTab";
+import PropertiesTab from "./components/PropertiesTab";
 import CodeTab from "./components/CodeTab";
 import { useAppStore } from "@/stores/appStore";
 
@@ -43,7 +42,7 @@ const SidePanel = () => {
         <StyledTab icon={<FaCode />} {...a11yProps(1)} />
       </StyledTabs>
       <Box width="calc(100% - 50px)">
-        {sidePanelTab === 0 && <SettingsTab />}
+        {sidePanelTab === 0 && <PropertiesTab />}
         {sidePanelTab === 1 && <CodeTab />}
       </Box>
     </Box>

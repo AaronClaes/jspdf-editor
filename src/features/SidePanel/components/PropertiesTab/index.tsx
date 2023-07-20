@@ -9,7 +9,7 @@ import TextInput from "./TextInput";
 import NumberInput from "./NumberInput";
 import ColorInput from "./ColorInput";
 
-const SettingsTab = () => {
+const PropertiesTab = () => {
   const currentObject = useAppStore((state) => state.currentObject);
   const objects = useAppStore((state) => state.objects);
 
@@ -85,4 +85,4 @@ const PanelOption: FC<PanelOptionProps> = (props) => {
   );
 };
 
-export default SettingsTab;
+export default PropertiesTab;

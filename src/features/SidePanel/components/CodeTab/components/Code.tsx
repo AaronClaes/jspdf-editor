@@ -1,16 +1,21 @@
 "use client";
-import { Button, Typography } from "@mui/material";
+import { Alert, Button, ButtonGroup, Snackbar, Typography } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { jsPDF as jsPDFClass } from "jspdf";
 import { useAppStore } from "@/stores/appStore";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { jsPDFConverter } from "@/lib/jsPDFConverter";
+import { useCopyToClipboard } from "usehooks-ts";
+import { useSnackbar } from "notistack";
 
 const converter = new jsPDFConverter();
 
 const Code = () => {
   const objects = useAppStore((state) => state.objects);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [_, copy] = useCopyToClipboard();
 
   const rectString = useMemo(() => {
     let string = "";
@@ -33,12 +38,21 @@ const Code = () => {
 });\n` +
     rectString +
     `\ndoc.save("a4.pdf");`;
+
+  const handleCopy = () => {
+    copy(fullCode);
+    enqueueSnackbar("Copied code to clipboard!", { variant: "success" });
+  };
+
   return (
     <>
+      <ButtonGroup sx={{ mb: 1 }} variant="outlined" fullWidth>
+        <Button onClick={() => test(fullCode)}>Execture</Button>
+        <Button onClick={handleCopy}>Copy</Button>
+      </ButtonGroup>
       <SyntaxHighlighter language="js" style={vscDarkPlus}>
         {fullCode}
       </SyntaxHighlighter>
-      <Button onClick={() => test(fullCode)}>Test</Button>
     </>
   );
 };

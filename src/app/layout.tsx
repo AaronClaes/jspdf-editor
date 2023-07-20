@@ -13,6 +13,8 @@ import Topbar from "@/features/Topbar";
 import { Box } from "@mui/material";
 import CanvasOverlay from "@/features/CanvasOverlay";
 import SidePanel from "@/features/SidePanel";
+import { SnackbarProvider } from "notistack";
+import Providers from "./Providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -48,14 +50,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <ThemeRegistry options={{ key: "mui" }}>
-          <Topbar />
-          <Box display="flex">
-            <Box sx={{ height: "calc(100dvh - 64px)", width: "100%", overflow: "auto" }}>
-              {children}
+          <Providers>
+            <Topbar />
+            <Box display="flex">
+              <Box sx={{ height: "calc(100dvh - 64px)", width: "100%", overflow: "auto" }}>
+                {children}
+              </Box>
+              <SidePanel />
             </Box>
-            <SidePanel />
-          </Box>
-          <CanvasOverlay />
+            <CanvasOverlay />
+          </Providers>
         </ThemeRegistry>
       </body>
     </html>
