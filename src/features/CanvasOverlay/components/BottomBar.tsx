@@ -35,8 +35,11 @@ const BottomBar = () => {
   const update = useAppStore((state) => state.update);
   const action = useAppStore((state) => state.action);
   const clearObjects = useAppStore((state) => state.clearObjects);
+  const sidePanelTab = useAppStore((state) => state.sidePanelTab);
 
   const [confirmClear, setConfirmClear] = useState(false);
+
+  const left = sidePanelTab === -1 ? "-50px" : "-400px";
 
   return (
     <>
@@ -47,9 +50,9 @@ const BottomBar = () => {
         gap={1}
         position="absolute"
         bottom="12px"
-        left={0}
+        left={left}
         right={0}
-        sx={{ pointerEvents: "none" }}
+        sx={{ pointerEvents: "none", transition: "left 0.4s ease" }}
       >
         <Box p={1} bgcolor="background.paper" borderRadius={2} sx={{ pointerEvents: "auto" }}>
           <Stack direction="row" spacing={1} alignItems="center">

@@ -29,7 +29,7 @@ const SidePanel = () => {
       bgcolor="background.default"
       minWidth={width}
       maxWidth={width}
-      sx={{ transition: "min-width 0.4s ease" }}
+      sx={{ transition: "min-width 0.4s ease, max-width 0.4s ease" }}
     >
       <StyledTabs
         orientation="vertical"

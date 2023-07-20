@@ -17,12 +17,7 @@ const Code = () => {
     for (const key in objects) {
       const object = objects[key];
       if (object.type === "rect") {
-        const newRectString = converter.createRect(
-          object.position.x,
-          object.position.y,
-          object.width,
-          object.height
-        );
+        const newRectString = converter.createRect(object);
         string += newRectString;
       }
     }
@@ -51,16 +46,6 @@ const Code = () => {
 const test = (code: string) => {
   const jsPDF = jsPDFClass;
   eval(code);
-  //   const doc = new jsPDF({
-  //     unit: "pt",
-  //     format: "a4",
-  //     putOnlyUsedFonts: true,
-  //     floatPrecision: 16,
-  //   });
-
-  //   doc.setFillColor(255, 0, 0);
-  //   doc.rect(14.21875, 131.984375, 562.6328125, 52.98828125, "F");
-  //   doc.save("a4.pdf");
 };
 
 export default Code;
