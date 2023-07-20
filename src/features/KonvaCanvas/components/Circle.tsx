@@ -23,8 +23,8 @@ const Circle: FC<CircleType> = ({ shape }) => {
     <KonvaCircle
       onClick={setActive}
       onPointerDown={setActive}
-      x={shape.x}
-      y={shape.y}
+      x={shape.position.x}
+      y={shape.position.y}
       draggable={action === "select"}
       radius={shape.radius}
       fill="red"

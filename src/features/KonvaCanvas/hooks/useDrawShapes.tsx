@@ -33,8 +33,7 @@ const useDrawShapes = () => {
         id,
         type: "rect",
         name,
-        x: pointer.x,
-        y: pointer.y,
+        position: { x: pointer.x, y: pointer.y },
         width: 1,
         height: 1,
         fill: "#ff0000",
@@ -42,14 +41,19 @@ const useDrawShapes = () => {
         borderWidth: 2,
       });
     } else if (drawAction === "circle") {
-      createObject({ id, type: "circle", name, x: pointer.x, y: pointer.y, radius: 1 });
+      createObject({
+        id,
+        type: "circle",
+        name,
+        position: { x: pointer.x, y: pointer.y },
+        radius: 1,
+      });
     } else if (drawAction === "line") {
       createObject({
         id,
         type: "line",
         name,
-        x: 0,
-        y: 0,
+        position: { x: 0, y: 0 },
         point1: [pointer.x, pointer.y],
         point2: [pointer.x, pointer.y],
       });
@@ -67,12 +71,12 @@ const useDrawShapes = () => {
 
     if (drawAction === "rect") {
       updateObject(currentObject, {
-        width: pointer.x - shape.x,
-        height: pointer.y - shape.y,
+        width: pointer.x - shape.position.x,
+        height: pointer.y - shape.position.y,
       });
     } else if (drawAction === "circle") {
       updateObject(currentObject, {
-        radius: Math.abs(pointer.x - shape.x),
+        radius: Math.abs(pointer.x - shape.position.x),
       });
     } else if (drawAction === "line") {
       const lineShape = shape as LineShapeType;

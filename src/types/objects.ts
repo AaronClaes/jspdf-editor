@@ -1,8 +1,7 @@
 export type ObjectType = {
   id: string;
   name: string;
-  x: number;
-  y: number;
+  position: { x: number; y: number };
 };
 
 export type RectShapeType = ObjectType & {
@@ -25,35 +24,42 @@ export type LineShapeType = ObjectType & {
   point2: [number, number];
 };
 
-const globalFields = {
+const globalFields: {
+  [key: string]: fieldSettings;
+} = {
   id: {
-    type: "string",
+    type: "text",
     isEditable: false,
     label: null,
   },
   name: {
-    type: "string",
+    type: "text",
     isEditable: true,
     label: "Object name",
   },
   type: {
-    type: "string",
+    type: "text",
     isEditable: false,
     label: null,
   },
-  x: {
-    type: "number",
-    isEditable: true,
-    label: null,
-  },
-  y: {
-    type: "number",
+  position: {
+    type: "vector2",
     isEditable: true,
     label: null,
   },
 };
 
-export const objectFields = {
+export type fieldSettings = {
+  type: "number" | "text" | "color" | "vector2";
+  isEditable: boolean;
+  label: string | null;
+};
+
+export const objectFields: {
+  [key: string]: {
+    [key: string]: fieldSettings;
+  };
+} = {
   rect: {
     ...globalFields,
     width: {

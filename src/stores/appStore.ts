@@ -11,9 +11,9 @@ type CreateObjectType = {
 };
 
 type UpdateObjectType = {
-  (name: string, values: Partial<RectShapeType>): void;
-  (name: string, values: Partial<CircleShapeType>): void;
-  (name: string, values: Partial<LineShapeType>): void;
+  (id: string, values: Partial<RectShapeType>): void;
+  (id: string, values: Partial<CircleShapeType>): void;
+  (id: string, values: Partial<LineShapeType>): void;
 };
 
 export interface AppState {

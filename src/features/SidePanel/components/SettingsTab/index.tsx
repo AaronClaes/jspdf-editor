@@ -1,18 +1,13 @@
 import { useAppStore } from "@/stores/appStore";
-import { objectFields } from "@/types/objects";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Divider,
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { fieldSettings, objectFields } from "@/types/objects";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { ChangeEvent, FC } from "react";
 import { FaRegSquareFull } from "react-icons/fa6";
-import PanelHeader from "./PanelHeader";
+import PanelHeader from "../PanelHeader";
+import Vector2Input from "./Vector2Input";
+import TextInput from "./TextInput";
+import NumberInput from "./NumberInput";
+import ColorInput from "./ColorInput";
 
 const SettingsTab = () => {
   const currentObject = useAppStore((state) => state.currentObject);
@@ -50,11 +45,12 @@ const SettingsTab = () => {
             {Object.keys(activeObjectFields).map((key) => {
               const fieldSettings = activeObjectFields[key as keyof typeof activeObjectFields];
               if (!fieldSettings.isEditable) return;
+
               return (
                 <PanelOption
                   key={key}
-                  object={activeObject.id}
-                  label={fieldSettings.label || key}
+                  objectId={activeObject.id}
+                  settings={fieldSettings}
                   field={key}
                   value={activeObject[key as keyof typeof activeObject]}
                 />
@@ -69,36 +65,22 @@ const SettingsTab = () => {
   );
 };
 
-type PanelOptionProps = {
-  object: string;
-  label: string;
+export type PanelOptionProps = {
+  objectId: string;
+  settings: fieldSettings;
   value: unknown;
   field: string;
 };
 
-const PanelOption: FC<PanelOptionProps> = ({ object, label, field, value }) => {
-  const updateObject = useAppStore((state) => state.updateObject);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateObject(object, { [field]: e.target.value });
-  };
+const PanelOption: FC<PanelOptionProps> = (props) => {
+  const { settings } = props;
 
   return (
     <Box width="100%">
-      <Box>
-        <Typography textTransform="capitalize" color="GrayText">
-          {label}
-        </Typography>
-      </Box>
-      <Box>
-        <TextField
-          onChange={handleChange}
-          variant="standard"
-          placeholder={label}
-          fullWidth
-          value={value}
-        />
-      </Box>
+      {settings.type === "vector2" && <Vector2Input {...props} />}
+      {settings.type === "text" && <TextInput {...props} />}
+      {settings.type === "number" && <NumberInput {...props} />}
+      {settings.type === "color" && <ColorInput {...props} />}
     </Box>
   );
 };

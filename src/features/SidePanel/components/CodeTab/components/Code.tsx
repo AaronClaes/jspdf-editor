@@ -17,7 +17,12 @@ const Code = () => {
     for (const key in objects) {
       const object = objects[key];
       if (object.type === "rect") {
-        const newRectString = converter.createRect(object.x, object.y, object.width, object.height);
+        const newRectString = converter.createRect(
+          object.position.x,
+          object.position.y,
+          object.width,
+          object.height
+        );
         string += newRectString;
       }
     }

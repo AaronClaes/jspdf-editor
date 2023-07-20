@@ -22,8 +22,8 @@ const Rectangle: FC<RectangleType> = ({ shape }) => {
     <Rect
       onClick={setActive}
       onPointerDown={setActive}
-      x={shape.x}
-      y={shape.y}
+      x={shape.position.x}
+      y={shape.position.y}
       draggable={action === "select"}
       width={shape.width}
       height={shape.height}
