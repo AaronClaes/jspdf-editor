@@ -1,30 +1,18 @@
-import { useAppStore } from "@/stores/appStore";
 import { RectShapeType } from "@/types/objects";
 import { Rect } from "react-konva";
 import { FC } from "react";
+import useObject from "../hooks/useObject";
 
-type RectangleType = {
+type RectangleProps = {
   shape: RectShapeType;
 };
 
-const Rectangle: FC<RectangleType> = ({ shape }) => {
-  const action = useAppStore((state) => state.action);
-  const currentObject = useAppStore((state) => state.currentObject);
-  const update = useAppStore((state) => state.update);
-
-  const isActive = currentObject === shape.id;
-
-  const setActive = () => {
-    update({ currentObject: shape.id });
-  };
+const Rectangle: FC<RectangleProps> = ({ shape }) => {
+  const objectBinds = useObject(shape);
 
   return (
     <Rect
-      onClick={setActive}
-      onPointerDown={setActive}
-      x={shape.position.x}
-      y={shape.position.y}
-      draggable={action === "select"}
+      {...objectBinds}
       width={shape.width}
       height={shape.height}
       fill={shape.fill}

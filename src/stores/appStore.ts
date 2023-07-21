@@ -2,23 +2,31 @@ import { create } from "zustand";
 import { mountStoreDevtool } from "simple-zustand-devtools";
 import { produce } from "immer";
 import { BooleanKeys, NonFunctionKeys } from "@/types/helpers";
-import { CircleShapeType, LineShapeType, RectShapeType, ObjectType } from "@/types/objects";
+import {
+  CircleShapeType,
+  LineShapeType,
+  RectShapeType,
+  ObjectType,
+  TextType,
+} from "@/types/objects";
 
 type CreateObjectType = {
   (object: RectShapeType): void;
   (object: CircleShapeType): void;
   (object: LineShapeType): void;
+  (object: TextType): void;
 };
 
 type UpdateObjectType = {
   (id: string, values: Partial<RectShapeType>): void;
   (id: string, values: Partial<CircleShapeType>): void;
   (id: string, values: Partial<LineShapeType>): void;
+  (id: string, values: Partial<TextType>): void;
 };
 
 type PageType = {
   thumbnail: string;
-  objects: { [key: string]: RectShapeType | CircleShapeType | LineShapeType };
+  objects: { [key: string]: RectShapeType | CircleShapeType | LineShapeType | TextType };
 };
 
 export interface AppState {

@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const useDrawShapes = () => {
   const { objects } = usePage();
-  const action = useAppStore((state) => state.action);
   const drawAction = useAppStore((state) => state.drawAction);
   const currentObject = useAppStore((state) => state.currentObject);
   const isDrawing = useAppStore((state) => state.isDrawing);
@@ -15,10 +14,7 @@ const useDrawShapes = () => {
   const createObject = useAppStore((state) => state.createObject);
   const updateObject = useAppStore((state) => state.updateObject);
 
-  const canDrawShape = action === "shape";
-
   const startDrawing = (e: KonvaEventObject<PointerEvent>) => {
-    if (!canDrawShape) return;
     const id = uuidv4();
     const name = "object";
 
@@ -62,7 +58,7 @@ const useDrawShapes = () => {
   };
 
   const whileDrawing = (e: KonvaEventObject<PointerEvent>) => {
-    if (!isDrawing || !canDrawShape) return;
+    if (!isDrawing) return;
     const shape = objects[currentObject];
     if (!shape) return;
 
@@ -89,7 +85,7 @@ const useDrawShapes = () => {
   };
 
   const stopDrawing = () => {
-    if (!isDrawing || !canDrawShape) return;
+    if (!isDrawing) return;
     update({ isDrawing: false });
   };
 

@@ -24,6 +24,11 @@ export type LineShapeType = ObjectType & {
   point2: [number, number];
 };
 
+export type TextType = ObjectType & {
+  type: "text";
+  value: string;
+};
+
 const globalFields: {
   [key: string]: fieldSettings;
 } = {

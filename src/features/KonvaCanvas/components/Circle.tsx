@@ -2,29 +2,22 @@ import { useAppStore } from "@/stores/appStore";
 import { CircleShapeType } from "@/types/objects";
 import { Circle as KonvaCircle } from "react-konva";
 import { FC } from "react";
+import useObject from "../hooks/useObject";
 
-type CircleType = {
+type CircleProps = {
   shape: CircleShapeType;
 };
 
-const Circle: FC<CircleType> = ({ shape }) => {
+const Circle: FC<CircleProps> = ({ shape }) => {
+  const objectBinds = useObject(shape);
   const action = useAppStore((state) => state.action);
   const currentObject = useAppStore((state) => state.currentObject);
-  const update = useAppStore((state) => state.update);
 
   const isActive = currentObject === shape.id;
 
-  const setActive = () => {
-    if (action !== "select") return;
-    update({ currentObject: shape.id });
-  };
-
   return (
     <KonvaCircle
-      onClick={setActive}
-      onPointerDown={setActive}
-      x={shape.position.x}
-      y={shape.position.y}
+      {...objectBinds}
       draggable={action === "select"}
       radius={shape.radius}
       fill="red"
