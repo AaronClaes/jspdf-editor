@@ -25,6 +25,9 @@ const Code = () => {
       if (object.type === "rect") {
         const newRectString = converter.createRect(object);
         string += newRectString;
+      } else if (object.type === "text") {
+        const newTextString = converter.createText(object);
+        string += newTextString;
       }
     }
     return string;

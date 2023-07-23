@@ -1,4 +1,4 @@
-import { RectShapeType } from "@/types/objects";
+import { RectShapeType, TextType } from "@/types/objects";
 
 export class jsPDFConverter {
   constructor() {}
@@ -16,6 +16,20 @@ export class jsPDFConverter {
       borderString +
       borderWidthString +
       objectString
+    );
+  }
+
+  public createText(object: TextType): string {
+    const { position, fontSize, color, value } = object;
+
+    // Enters in a text area create a new line, this will visualize the new lines
+    const valueWithNewLines = value.replace(/[\r\n]/g, "\\n");
+
+    const fillString = `doc.setTextColor("${color}");\n`;
+    const fontSizeString = `doc.setFontSize(${fontSize});\n`;
+    const objectString = `doc.text("${valueWithNewLines}",${position.x},${position.y},{}, "FD");\n`;
+    return (
+      "\n" + `// ${object.type}: ${object.name}\n` + fillString + fontSizeString + objectString
     );
   }
 }
