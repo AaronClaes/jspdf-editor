@@ -1,15 +1,16 @@
 "use client";
 import usePage from "@/hooks/usePage";
 import { useAppStore } from "@/stores/appStore";
-import { Box, Stack, TextField, TextareaAutosize } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
+import TextOptions from "./TextOptions";
 
 const TopBar = () => {
+  const action = useAppStore((state) => state.action);
   const updateObject = useAppStore((state) => state.updateObject);
   const sidePanelTab = useAppStore((state) => state.sidePanelTab);
+  const { currentObject } = usePage();
 
   const left = sidePanelTab === -1 ? "250px" : "-100px";
-
-  const { currentObject } = usePage();
 
   return (
     <>
@@ -25,6 +26,15 @@ const TopBar = () => {
         right={0}
         sx={{ pointerEvents: "none", transition: "left 0.4s ease" }}
       >
+        <Box p={1} bgcolor="background.paper" borderRadius={2} sx={{ pointerEvents: "auto" }}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            {action === "text" || currentObject?.type === "text" ? (
+              <TextOptions />
+            ) : (
+              "No action available"
+            )}
+          </Stack>
+        </Box>
         {currentObject?.type === "text" && (
           <Box p={1} bgcolor="background.paper" borderRadius={2} sx={{ pointerEvents: "auto" }}>
             <Stack width="300px" direction="row" spacing={1} alignItems="center">
@@ -37,6 +47,7 @@ const TopBar = () => {
                   onChange={(e) => updateObject(currentObject.id, { value: e.target.value })}
                   placeholder="Text"
                   value={currentObject.value}
+                  size="small"
                 />
               </>
             </Stack>

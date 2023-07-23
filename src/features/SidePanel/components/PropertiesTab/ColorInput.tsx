@@ -18,7 +18,7 @@ const ColorInput: FC<ColorInputProps> = ({ settings, field, value, objectId }) =
 
   return (
     <Box position="relative">
-      <Stack direction="row" alignItems="center" spacing={2}>
+      <Stack direction="row" alignItems="center" spacing={1}>
         <TextField
           onChange={(e) => updateObject(objectId, { [field]: e.target.value })}
           label={settings.label || field}
@@ -26,6 +26,7 @@ const ColorInput: FC<ColorInputProps> = ({ settings, field, value, objectId }) =
           fullWidth
           value={value}
           type="text"
+          size="small"
         />
         <Box
           borderRadius={1}

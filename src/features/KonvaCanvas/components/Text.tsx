@@ -35,11 +35,17 @@ const Text: FC<TextProps> = ({ object }) => {
     rect.height(height + offset);
 
     return () => void rect?.strokeEnabled(false);
-  }, [object.value, isActive]);
+  }, [object.value, object.fontSize, isActive]);
 
   return (
     <>
-      <KonvaText fill="#red" ref={textRef} {...objectBinds} text={object.value} />
+      <KonvaText
+        fontSize={object.fontSize}
+        ref={textRef}
+        {...objectBinds}
+        text={object.value}
+        fill={object.color}
+      />
       {isActive && (
         <Rect scaleX={1.1} stroke={theme.palette.primary.main} strokeWidth={2} ref={rectRef} />
       )}

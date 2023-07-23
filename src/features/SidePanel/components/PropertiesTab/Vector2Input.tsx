@@ -2,6 +2,7 @@ import { Stack, TextField } from "@mui/material";
 import { ChangeEvent, FC } from "react";
 import { PanelOptionProps } from ".";
 import { useAppStore } from "@/stores/appStore";
+import NumberField from "@/components/NumberField";
 
 type Vector2InputProps = PanelOptionProps;
 
@@ -9,30 +10,27 @@ const Vector2Input: FC<Vector2InputProps> = ({ value, objectId }) => {
   const vectorValue = value as { x: number; y: number };
 
   const updateObject = useAppStore((state) => state.updateObject);
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    key: keyof typeof vectorValue
-  ) => {
-    updateObject(objectId, { position: { ...vectorValue, [key]: e.target.value } });
+  const handleChange = (value: number, key: keyof typeof vectorValue) => {
+    updateObject(objectId, { position: { ...vectorValue, [key]: value } });
   };
 
   return (
     <Stack direction="row" spacing={2} alignItems="center">
-      <TextField
-        onChange={(e) => handleChange(e, "x")}
+      <NumberField
+        onChange={(value) => handleChange(value, "x")}
         label="x"
         placeholder="x"
         fullWidth
         value={vectorValue.x}
-        type="number"
+        size="small"
       />
-      <TextField
-        onChange={(e) => handleChange(e, "y")}
+      <NumberField
+        onChange={(value) => handleChange(value, "y")}
         label="y"
         placeholder="y"
         fullWidth
         value={vectorValue.y}
-        type="number"
+        size="small"
       />
     </Stack>
   );

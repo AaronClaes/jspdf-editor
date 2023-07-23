@@ -8,7 +8,7 @@ const themeOptions: ThemeOptions = {
       main: "#1976d2",
     },
     secondary: {
-      main: "#f50057",
+      main: "#12161c",
     },
     background: {
       default: "#02040a",

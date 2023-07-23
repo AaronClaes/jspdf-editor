@@ -16,6 +16,7 @@ const TextInput: FC<TextInputProps> = ({ settings, field, value, objectId }) => 
       fullWidth
       value={value}
       type="text"
+      size="small"
     />
   );
 };

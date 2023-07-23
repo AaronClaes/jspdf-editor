@@ -35,8 +35,9 @@ export interface AppState {
   currentPage: number;
   pages: PageType[];
   isDrawing: boolean;
-  currentObject: string;
+  currentObject: string | undefined;
   sidePanelTab: number;
+  fontSize: number;
   createPage: () => void;
   updatePage: (pageIndex: number, values: Partial<PageType>) => void;
   createObject: CreateObjectType;
@@ -57,6 +58,7 @@ const initialState: AppStateValues = {
   isDrawing: false,
   currentObject: "",
   sidePanelTab: -1,
+  fontSize: 11,
 };
 
 export const useAppStore = create<AppState>((set) => ({

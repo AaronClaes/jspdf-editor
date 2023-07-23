@@ -27,6 +27,8 @@ export type LineShapeType = ObjectType & {
 export type TextType = ObjectType & {
   type: "text";
   value: string;
+  color: string;
+  fontSize: number;
 };
 
 const globalFields: {
@@ -95,4 +97,10 @@ export const objectFields: {
   },
   circle: { ...globalFields },
   line: { ...globalFields },
+  text: {
+    ...globalFields,
+    value: { type: "text", isEditable: true, label: null },
+    color: { type: "color", isEditable: true, label: null },
+    fontSize: { type: "number", isEditable: true, label: null },
+  },
 };

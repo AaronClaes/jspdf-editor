@@ -5,7 +5,8 @@ const usePage = () => {
   const currentPage = useAppStore((state) => state.currentPage);
   const objects = useAppStore((state) => state.pages[currentPage].objects);
 
-  return { currentPage, objects, currentObject: objects[currentObject] };
+  const currentObjectData = currentObject ? objects[currentObject] : undefined;
+  return { currentPage, objects, currentObject: currentObjectData };
 };
 
 export default usePage;

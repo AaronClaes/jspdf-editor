@@ -58,7 +58,7 @@ const useDrawShapes = () => {
   };
 
   const whileDrawing = (e: KonvaEventObject<PointerEvent>) => {
-    if (!isDrawing) return;
+    if (!isDrawing || !currentObject) return;
     const shape = objects[currentObject];
     if (!shape) return;
 

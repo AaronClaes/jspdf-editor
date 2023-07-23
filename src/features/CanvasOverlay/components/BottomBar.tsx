@@ -1,7 +1,7 @@
 "use client";
 import LayoutIconButton from "@/components/LayoutIconButton";
 import { AppState, useAppStore } from "@/stores/appStore";
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { ReactNode, cloneElement, useState } from "react";
 import { IconBaseProps } from "react-icons";
 import {

@@ -1,7 +1,6 @@
-import { useAppStore } from "@/stores/appStore";
 import { fieldSettings, objectFields } from "@/types/objects";
-import { Box, Stack, TextField, Typography } from "@mui/material";
-import { ChangeEvent, FC } from "react";
+import { Box, Stack, Typography } from "@mui/material";
+import { FC } from "react";
 import { FaRegSquareFull } from "react-icons/fa6";
 import PanelHeader from "../PanelHeader";
 import Vector2Input from "./Vector2Input";
@@ -11,16 +10,14 @@ import ColorInput from "./ColorInput";
 import usePage from "@/hooks/usePage";
 
 const PropertiesTab = () => {
-  const currentObject = useAppStore((state) => state.currentObject);
-  const { objects } = usePage();
+  const { currentObject } = usePage();
 
-  const activeObject = objects[currentObject];
-  const activeObjectFields = activeObject ? objectFields[activeObject.type] : undefined;
+  const currentObjectFields = currentObject ? objectFields[currentObject.type] : undefined;
 
   return (
     <Box width="100%">
       <PanelHeader title="Settings" />
-      {activeObjectFields ? (
+      {currentObject && currentObjectFields ? (
         <>
           <Stack p={1} direction="row" spacing={1} alignItems="center">
             <FaRegSquareFull size="22" />
@@ -32,7 +29,7 @@ const PropertiesTab = () => {
               variant="h6"
               fontSize="1rem"
             >
-              {activeObject.name || "Object"}
+              {currentObject?.name || "Object"}
             </Typography>
           </Stack>
           <Stack
@@ -43,17 +40,17 @@ const PropertiesTab = () => {
             spacing={2}
             alignItems="center"
           >
-            {Object.keys(activeObjectFields).map((key) => {
-              const fieldSettings = activeObjectFields[key as keyof typeof activeObjectFields];
+            {Object.keys(currentObjectFields).map((key) => {
+              const fieldSettings = currentObjectFields[key as keyof typeof currentObjectFields];
               if (!fieldSettings.isEditable) return;
 
               return (
                 <PanelOption
                   key={key}
-                  objectId={activeObject.id}
+                  objectId={currentObject.id}
                   settings={fieldSettings}
                   field={key}
-                  value={activeObject[key as keyof typeof activeObject]}
+                  value={currentObject[key as keyof typeof currentObject]}
                 />
               );
             })}
@@ -73,15 +70,17 @@ export type PanelOptionProps = {
   field: string;
 };
 
-const PanelOption: FC<PanelOptionProps> = (props) => {
+const PanelOption: FC<PanelOptionProps> = ({ value, ...props }) => {
   const { settings } = props;
 
   return (
     <Box width="100%">
-      {settings.type === "vector2" && <Vector2Input {...props} />}
-      {settings.type === "text" && <TextInput {...props} />}
-      {settings.type === "number" && <NumberInput {...props} />}
-      {settings.type === "color" && <ColorInput {...props} />}
+      {settings.type === "vector2" && <Vector2Input {...props} value={value} />}
+      {settings.type === "text" && <TextInput {...props} value={value} />}
+      {settings.type === "number" && typeof value === "number" && (
+        <NumberInput {...props} value={value} />
+      )}
+      {settings.type === "color" && <ColorInput {...props} value={value} />}
     </Box>
   );
 };
