@@ -10,17 +10,13 @@ type LineProps = {
 
 const Line: FC<LineProps> = ({ shape }) => {
   const objectBinds = useObject(shape);
-  const currentObject = useAppStore((state) => state.currentObject);
-
-  const isActive = currentObject === shape.id;
 
   return (
     <KonvaLine
       {...objectBinds}
-      points={[...shape.point1, ...shape.point2]}
-      fill="red"
-      stroke="black"
-      strokeWidth={isActive ? 3 : 2}
+      points={[shape.point1.x, shape.point1.y, shape.point2.x, shape.point2.y]}
+      stroke={shape.color}
+      strokeWidth={shape.thickness}
     />
   );
 };

@@ -1,4 +1,4 @@
-import { CircleShapeType, RectShapeType, TextType } from "@/types/objects";
+import { CircleShapeType, LineShapeType, RectShapeType, TextType } from "@/types/objects";
 
 export class jsPDFConverter {
   constructor() {}
@@ -32,6 +32,16 @@ export class jsPDFConverter {
       borderString +
       borderWidthString +
       objectString
+    );
+  }
+
+  public createLine(object: LineShapeType): string {
+    const { point1, point2, thickness, color } = object;
+    const colorString = `doc.setDrawColor("${color}");\n`;
+    const thicknessString = `doc.setLineWidth("${thickness}");\n`;
+    const objectString = `doc.line(${point1.x},${point1.y},${point2.x}, ${point2.y}, "FD");\n`;
+    return (
+      "\n" + `// ${object.type}: ${object.name}\n` + colorString + thicknessString + objectString
     );
   }
 

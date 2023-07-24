@@ -23,8 +23,10 @@ export type CircleShapeType = ObjectType & {
 
 export type LineShapeType = ObjectType & {
   type: "line";
-  point1: [number, number];
-  point2: [number, number];
+  point1: { x: number; y: number };
+  point2: { x: number; y: number };
+  thickness: number;
+  color: string;
 };
 
 export type TextType = ObjectType & {
@@ -116,7 +118,29 @@ export const objectFields: {
       label: "border color",
     },
   },
-  line: { ...globalFields },
+  line: {
+    ...globalFields,
+    point1: {
+      type: "vector2",
+      isEditable: true,
+      label: null,
+    },
+    point2: {
+      type: "vector2",
+      isEditable: true,
+      label: null,
+    },
+    thickness: {
+      type: "number",
+      isEditable: true,
+      label: null,
+    },
+    color: {
+      type: "color",
+      isEditable: true,
+      label: null,
+    },
+  },
   text: {
     ...globalFields,
     value: { type: "text", isEditable: true, label: null },

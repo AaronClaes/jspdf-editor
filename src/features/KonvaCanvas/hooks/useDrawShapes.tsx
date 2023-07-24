@@ -54,8 +54,10 @@ const useDrawShapes = () => {
         type: "line",
         name,
         position: { x: 0, y: 0 },
-        point1: [pointer.x, pointer.y],
-        point2: [pointer.x, pointer.y],
+        point1: { x: pointer.x, y: pointer.y },
+        point2: { x: pointer.x, y: pointer.y },
+        color: "#000000",
+        thickness: 1,
       });
     }
   };
@@ -85,7 +87,7 @@ const useDrawShapes = () => {
       const lineShape = shape as LineShapeType;
       updateObject(currentObject, {
         point1: lineShape.point1,
-        point2: [pointer.x, pointer.y],
+        point2: { x: pointer.x, y: pointer.y },
       });
     }
   };

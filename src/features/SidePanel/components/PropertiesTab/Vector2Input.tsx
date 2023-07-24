@@ -1,17 +1,17 @@
-import { Stack, TextField } from "@mui/material";
-import { ChangeEvent, FC } from "react";
+import { Stack } from "@mui/material";
+import { FC } from "react";
 import { PanelOptionProps } from ".";
 import { useAppStore } from "@/stores/appStore";
 import NumberField from "@/components/NumberField";
 
 type Vector2InputProps = PanelOptionProps;
 
-const Vector2Input: FC<Vector2InputProps> = ({ value, objectId }) => {
+const Vector2Input: FC<Vector2InputProps> = ({ field, value, objectId }) => {
   const vectorValue = value as { x: number; y: number };
 
   const updateObject = useAppStore((state) => state.updateObject);
   const handleChange = (value: number, key: keyof typeof vectorValue) => {
-    updateObject(objectId, { position: { ...vectorValue, [key]: value } });
+    updateObject(objectId, { [field]: { ...vectorValue, [key]: value } });
   };
 
   return (

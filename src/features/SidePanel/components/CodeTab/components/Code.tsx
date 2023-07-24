@@ -28,6 +28,9 @@ const Code = () => {
       } else if (object.type === "circle") {
         const newCircleString = converter.createCircle(object);
         string += newCircleString;
+      } else if (object.type === "line") {
+        const newLineString = converter.createLine(object);
+        string += newLineString;
       } else if (object.type === "text") {
         const newTextString = converter.createText(object);
         string += newTextString;
