@@ -16,6 +16,9 @@ export type RectShapeType = ObjectType & {
 export type CircleShapeType = ObjectType & {
   type: "circle";
   radius: number;
+  fill: string;
+  borderWidth: number;
+  borderColor: string;
 };
 
 export type LineShapeType = ObjectType & {
@@ -95,7 +98,24 @@ export const objectFields: {
       label: "border color",
     },
   },
-  circle: { ...globalFields },
+  circle: {
+    ...globalFields,
+    fill: {
+      type: "color",
+      isEditable: true,
+      label: null,
+    },
+    borderWidth: {
+      type: "number",
+      isEditable: true,
+      label: "border width",
+    },
+    borderColor: {
+      type: "color",
+      isEditable: true,
+      label: "border color",
+    },
+  },
   line: { ...globalFields },
   text: {
     ...globalFields,

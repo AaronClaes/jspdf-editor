@@ -20,10 +20,9 @@ const Circle: FC<CircleProps> = ({ shape }) => {
       {...objectBinds}
       draggable={action === "select"}
       radius={shape.radius}
-      fill="red"
-      stroke="black"
-      strokeWidth={2}
-      strokeEnabled={isActive}
+      fill={shape.fill}
+      stroke={shape.borderColor}
+      strokeWidth={shape.borderWidth}
     />
   );
 };

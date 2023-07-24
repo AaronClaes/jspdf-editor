@@ -44,6 +44,9 @@ const useDrawShapes = () => {
         name,
         position: { x: pointer.x, y: pointer.y },
         radius: 1,
+        fill: "#ff0000",
+        borderColor: "#000000",
+        borderWidth: 2,
       });
     } else if (drawAction === "line") {
       createObject({
@@ -72,8 +75,11 @@ const useDrawShapes = () => {
         height: pointer.y - shape.position.y,
       });
     } else if (drawAction === "circle") {
+      const distanceX = Math.abs(pointer.x - shape.position.x);
+      const distanceY = Math.abs(pointer.y - shape.position.y);
+
       updateObject(currentObject, {
-        radius: Math.abs(pointer.x - shape.position.x),
+        radius: Math.max(distanceX, distanceY),
       });
     } else if (drawAction === "line") {
       const lineShape = shape as LineShapeType;

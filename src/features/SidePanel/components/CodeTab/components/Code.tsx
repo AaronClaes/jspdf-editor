@@ -18,13 +18,16 @@ const Code = () => {
 
   const [_, copy] = useCopyToClipboard();
 
-  const rectString = useMemo(() => {
+  const objectsString = useMemo(() => {
     let string = "";
     for (const key in objects) {
       const object = objects[key];
       if (object.type === "rect") {
         const newRectString = converter.createRect(object);
         string += newRectString;
+      } else if (object.type === "circle") {
+        const newCircleString = converter.createCircle(object);
+        string += newCircleString;
       } else if (object.type === "text") {
         const newTextString = converter.createText(object);
         string += newTextString;
@@ -40,7 +43,7 @@ const Code = () => {
     putOnlyUsedFonts: true,
     floatPrecision: 16,
 });\n` +
-    rectString +
+    objectsString +
     `\ndoc.save("a4.pdf");`;
 
   const handleCopy = () => {

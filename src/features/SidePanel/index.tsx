@@ -45,7 +45,7 @@ const SidePanel = () => {
         <StyledTab icon={<FaSliders />} {...a11yProps(0)} />
         <StyledTab icon={<FaCode />} {...a11yProps(1)} />
       </StyledTabs>
-      <Box width="calc(100% - 50px)">
+      <Box width="calc(100% - 50px)" height="calc(100vh - 64px)" sx={{ overflowY: "auto" }}>
         {sidePanelTab === 0 && <PropertiesTab />}
         {sidePanelTab === 1 && <CodeTab />}
       </Box>
