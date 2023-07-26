@@ -21,7 +21,7 @@ const useDrawShapes = () => {
     update({ isDrawing: true, currentObject: id });
 
     const stage = e.currentTarget.getStage();
-    const pointer = stage?.getPointerPosition();
+    const pointer = stage?.getRelativePointerPosition();
 
     if (!stage || !pointer) return;
 
@@ -68,7 +68,7 @@ const useDrawShapes = () => {
     if (!shape) return;
 
     const stage = e.currentTarget.getStage();
-    const pointer = stage?.getPointerPosition();
+    const pointer = stage?.getRelativePointerPosition();
     if (!stage || !pointer) return;
 
     if (drawAction === "rect") {

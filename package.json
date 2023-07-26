@@ -17,13 +17,14 @@
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
+    "downloadjs": "^1.4.7",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "immer": "^10.0.2",
-    "jspdf": "^2.5.1",
     "konva": "^9.2.0",
     "next": "13.4.10",
     "notistack": "^3.0.1",
+    "pdf-lib": "^1.17.1",
     "react": "18.2.0",
     "react-colorful": "^5.6.1",
     "react-dom": "18.2.0",
@@ -37,6 +38,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@types/downloadjs": "^1.4.3",
     "@types/react-syntax-highlighter": "^15.5.7",
     "@types/uuid": "^9.0.2"
   }

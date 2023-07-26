@@ -1,16 +1,16 @@
 "use client";
-import { Alert, Button, ButtonGroup, Snackbar, Typography } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { jsPDF as jsPDFClass } from "jspdf";
-import { useAppStore } from "@/stores/appStore";
-import { useMemo, useState } from "react";
-import { jsPDFConverter } from "@/lib/jsPDFConverter";
+import { useMemo } from "react";
+import { PdfLibConverter } from "@/lib/PdfLibConverter";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useSnackbar } from "notistack";
 import usePage from "@/hooks/usePage";
+import * as PDFLib from "pdf-lib";
+import downloadjs from "downloadjs";
 
-const converter = new jsPDFConverter();
+const converter = new PdfLibConverter();
 
 const Code = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -40,14 +40,9 @@ const Code = () => {
   }, [objects]);
 
   const fullCode =
-    `const doc = new jsPDF({
-    unit: "pt",
-    format: "a4",
-    putOnlyUsedFonts: true,
-    floatPrecision: 16,
-});\n` +
+    `const pdfDoc = await pdfLib.PDFDocument.create();\nconst page = pdfDoc.addPage();\n` +
     objectsString +
-    `\ndoc.save("a4.pdf");`;
+    `\nconst pdfBytes = await pdfDoc.save();\ndownload(pdfBytes, "file.pdf", "application/pdf");`;
 
   const handleCopy = () => {
     copy(fullCode);
@@ -67,9 +62,13 @@ const Code = () => {
   );
 };
 
-const test = (code: string) => {
-  const jsPDF = jsPDFClass;
-  eval(code);
+const test = async (code: string) => {
+  const pdfLib = PDFLib;
+  const download = downloadjs;
+  const rgb = pdfLib.rgb;
+  const PDFDocument = pdfLib.PDFDocument;
+
+  eval("(async () => {" + code + "})()");
 };
 
 export default Code;

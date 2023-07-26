@@ -34,6 +34,7 @@ const KonvaCanvas = () => {
       className="konva-canvas"
       width={595}
       height={842}
+      offsetY={-842}
     >
       <Layer>
         {Object.keys(objects).map((key) => {

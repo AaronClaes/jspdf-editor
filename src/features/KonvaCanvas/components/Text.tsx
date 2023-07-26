@@ -35,7 +35,7 @@ const Text: FC<TextProps> = ({ object }) => {
     rect.height(height + offset);
 
     return () => void rect?.strokeEnabled(false);
-  }, [object.value, object.fontSize, isActive]);
+  }, [object.value, object.position, object.fontSize, object.id, isActive]);
 
   return (
     <>

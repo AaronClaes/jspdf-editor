@@ -12,7 +12,7 @@ const useAddText = () => {
     const name = "text";
 
     const stage = e.currentTarget.getStage();
-    const pointer = stage?.getPointerPosition();
+    const pointer = stage?.getRelativePointerPosition();
 
     if (!stage || !pointer) return;
 

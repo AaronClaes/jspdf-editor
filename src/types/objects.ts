@@ -65,6 +65,7 @@ export type fieldSettings = {
   type: "number" | "text" | "color" | "vector2";
   isEditable: boolean;
   label: string | null;
+  invert?: boolean;
 };
 
 export const objectFields: {
@@ -83,6 +84,7 @@ export const objectFields: {
       type: "number",
       isEditable: true,
       label: null,
+      invert: true,
     },
     fill: {
       type: "color",

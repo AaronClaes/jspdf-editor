@@ -3,6 +3,7 @@ import { FC } from "react";
 import { PanelOptionProps } from ".";
 import { useAppStore } from "@/stores/appStore";
 import NumberField from "@/components/NumberField";
+import { invertNumber } from "@/helpers/invertNumber";
 
 type Vector2InputProps = PanelOptionProps;
 
@@ -25,11 +26,11 @@ const Vector2Input: FC<Vector2InputProps> = ({ field, value, objectId }) => {
         size="small"
       />
       <NumberField
-        onChange={(value) => handleChange(value, "y")}
+        onChange={(value) => handleChange(invertNumber(value), "y")}
         label="y"
         placeholder="y"
         fullWidth
-        value={vectorValue.y}
+        value={invertNumber(vectorValue.y)}
         size="small"
       />
     </Stack>
